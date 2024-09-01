@@ -1,0 +1,7 @@
+{
+  "name": "MeinNotizBuch",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
