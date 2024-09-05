@@ -1,0 +1,43 @@
+.input{
+   font-size: 300; 
+}
+
+ion-item{
+    --background: #ee9d22;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.page {
+  background-color: #000000; /* Fond noir */
+  color: #ffffff; /* Texte blanc */
+  min-height: 100vh; /* Assurez que le fond couvre toute la hauteur de la vue */
+}
+
+.header{
+    margin-top: 100px;
+    margin-bottom: 80px;
+    text-align: center;
+     .title{
+        font-size: 2rem;
+    }
+    .text{
+        color:gray;
+        font-size:0.9rem;
+
+    }
+}
+.register{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-weight: 600;
+    color:aqua;
+    margin-right: 50px;
+  
+    a
+    {
+        text-decoration: none;
+    }
+}
+
