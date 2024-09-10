@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '@angular/fire/auth';
+import { User, UserCredential } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationService {
   private currentUser!: User;
-  private userId!: string;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -17,72 +16,30 @@ export class AuthenticationService {
     private router: Router
   ) {}
 
-  // doRegister(
-  //   username: string,
-  //   email: string,
-  //   password: string
-  // ): Promise<boolean> {
-  //   return this.afAuth
-  //     .createUserWithEmailAndPassword(email, password)
-  //     .then((result) => {
-  //       const additionalUserData = {
-  //         username: username,
-  //         email: email,
-  //       };
-  //       if (result.user) {
-  //         return this.db
-  //           .collection('users')
-  //           .doc(result.user.uid)
-  //           .set(additionalUserData);
-  //       } else {
-  //         throw new Error('User registration failed');
-  //       }
-  //     })
-  //     .then(() => {
-  //       this.router.navigate(['/home']);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error registering user:', error);
-  //       throw error;
-  //     });
-  // }
-
-  async register(
-    email: string,
-    password: string,
-    username: string
-  ): Promise<boolean> {
-    try {
-      debugger;
-
-      const result = await this.afAuth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      if (result.user) {
+  doRegister(email: string, password: string, username: string): Promise<void> {
+    return this.afAuth
+      .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
         const additionalUserData = {
-          name: username,
           email: email,
+          username: username,
         };
-
-        await this.db
-          .collection('users')
-          .doc(result.user.uid)
-          .set(additionalUserData);
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.error('Error registering user:', error);
-
-      return false;
-    }
-  }
-
-  async DoRegister(email: string, password: string) {
-    return await this.afAuth.createUserWithEmailAndPassword(email, password);
+        if (result.user) {
+          return this.db
+            .collection('users')
+            .doc(result.user.uid)
+            .set(additionalUserData);
+        } else {
+          throw new Error('User registration failed');
+        }
+      })
+      .then(() => {
+        this.router.navigate(['/home']);
+      })
+      .catch((error) => {
+        console.error('Error registering user:', error);
+        throw error;
+      });
   }
 
   async doLogin(email: string, password: string) {
@@ -93,10 +50,9 @@ export class AuthenticationService {
     return await this.afAuth.signOut();
   }
 
- 
- async getCurrentUser(): Promise<User> {
+  async getCurrentUser(): Promise<User> {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.onAuthStateChanged( (user) => {
+      this.afAuth.onAuthStateChanged((user) => {
         if (user) {
           resolve(user);
         } else {
@@ -106,19 +62,4 @@ export class AuthenticationService {
     });
   }
 
-  setUser(data: User) {
-    this.currentUser = data;
-  }
-
-  getUser(): User | null {
-    return this.currentUser;
-  }
-
-  setUserId(key: string) {
-    this.userId = key;
-  }
-
-  getUserId(): string {
-    return this.userId;
-  }
 }

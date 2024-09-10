@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { Birthday } from '../models/birthday';
-import { User } from '@angular/fire/auth';
-import { Observable, Subject } from 'rxjs';
-import { addDoc, collection, collectionData, deleteDoc, doc, docData, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
+
+import { from, map, Observable, Subject } from 'rxjs';
+import { addDoc, collection, collectionData, deleteDoc, doc, docData, Firestore, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BirthdayService {
-  
   private userId!: any;
 
   private collectionRefPath = 'birthdayList';
+  
 
   constructor(
     private authservice: AuthenticationService,
-    public db: Firestore
+    public db: Firestore,
+    private afs: AngularFirestore
   ) {
     this.authservice.getCurrentUser().then((user) => {
       this.userId = user?.uid;
@@ -30,7 +32,7 @@ export class BirthdayService {
     return addDoc(birthdayRef, birthday);
   }
 
-  deleteBirthday(id:any) {
+  deleteBirthday(id: string) {
     const birthdayRef = doc(this.db, `birthdayList/${id}`);
     return deleteDoc(birthdayRef);
   }
@@ -44,19 +46,20 @@ export class BirthdayService {
   }
 
   getBirthDayById(id: any) {
-    const birthdayRef = doc(this.db, `birthdayList/${id}`) ;
-    return docData(birthdayRef, {idField:'id'}) as Observable<Birthday>;
+    const birthdayRef = doc(this.db, `birthdayList/${id}`);
+    return docData(birthdayRef, { idField: 'id' }) as Observable<Birthday>;
   }
 
   updateBirthDate(birthday: Birthday) {
-    
-     if (!birthday.id) {
-       throw new Error('Birthday ID is required to update the document.');
-     }
+    if (!birthday.id) {
+      throw new Error('Birthday ID is required to update the document.');
+    }
     const birthdayRef = doc(this.db, `birthdayList/${birthday.id}`);
-    return updateDoc (birthdayRef, { fullname: birthday.fullname , date:birthday.date, description: birthday.description})
+    return updateDoc(birthdayRef, {
+      fullname: birthday.fullname,
+      date: birthday.date,
+      description: birthday.description,
+    });
   }
-
   
-
 }

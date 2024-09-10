@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -49,28 +50,27 @@ export class LoginPage implements OnInit {
 
     if (this.loginForm.valid) {
       try {
-        const user = await this.authService.doLogin(
+        await this.authService.doLogin(
           this.loginForm.value.email,
           this.loginForm.value.password
         );
 
-        if (user) {
-          loading.dismiss();
-          this.router.navigate(['/home']);
-        } 
-      } catch (error:any) {
         loading.dismiss();
-        this.presentToast(
-           'Email or Password is wrong.'
-        );
-        console.log(error);
+        this.router.navigate(['/home']);
+      } catch (err) {
+        loading.dismiss();
+        this.presentToast('Email or Password is wrong.');
+        console.log(err);
       }
-    } 
+    } else {
+      loading.dismiss();
+      this.presentToast('Please fill in the form correctly.');
+    }
   }
 
   async presentToast(message: string) {
     const toast = await this.toastController.create({
-      message: message ,
+      message: message,
       duration: 1500,
       position: 'top',
     });

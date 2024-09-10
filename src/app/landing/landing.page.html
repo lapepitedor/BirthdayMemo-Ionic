@@ -1,32 +1,47 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" shape="round" (click)="cancelUpdate()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div  *ngIf="birthday">
-<ion-item>
-  <ion-label position="stacked">Fullname</ion-label>
-  <ion-input [(ngModel)]="birthday.fullname"></ion-input>
-</ion-item>
+  <div *ngIf="birthday">
+    <ion-item>
+      <ion-label position="stacked">Fullname</ion-label>
+      <ion-input [(ngModel)]="birthday.fullname" (ngModelChange)="onInputChange()" placeholder="Enter full name"></ion-input>
+    </ion-item>
 
-<ion-item>
-  <ion-label position="stacked">Description</ion-label>
-  <ion-textarea [(ngModel)]="birthday.description" row="5"></ion-textarea>
-</ion-item>
+    <ion-item>
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea [(ngModel)]="birthday.description" rows="4" (ngModelChange)="onInputChange()" placeholder="Enter description"></ion-textarea>
+    </ion-item>
 
-<ion-item>
-  <ion-label position="stacked">Fullname</ion-label>
-   <ion-input [(ngModel)]="birthday.date" type="date"></ion-input>
-</ion-item>
+    <ion-item>
+      <ion-label position="stacked">Date of Birth</ion-label>
+      <ion-input [(ngModel)]="birthday.date" type="date" (ngModelChange)="onInputChange()"></ion-input>
+    </ion-item>
   </div>
 
-  <ion-button expand="block" color="success" (click)="updateBirthdate()">
-<ion-icon name="save" slot="start">Update</ion-icon>
-  </ion-button>
+   <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" color="success" [disabled]="!isModified" (click)="updateBirthdate()">
+          <ion-icon name="save" slot="start"></ion-icon>
+          Update
+        </ion-button>
+      </ion-col>
 
-  <ion-button expand="block" color="danger" (click)="deleteBirthdate()">
-<ion-icon name="trash" slot="start">Delete</ion-icon>
-  </ion-button>
+      <ion-col>
+        <ion-button expand="block" color="danger" (click)="birthday.id ? deleteBirthdate(birthday.id) : null">
+          <ion-icon name="trash" slot="start"></ion-icon>
+          Delete
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

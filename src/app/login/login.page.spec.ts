@@ -1,11 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPage } from './login.page';
 
+class AuthenticationServiceMock {
+  login() {
+    return Promise.resolve(true);
+  }
+}
+
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+
+
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -43,36 +43,26 @@ export class RegisterPage implements OnInit {
   }
 
   async signUp() {
+    debugger
     const loading = await this.loadingCtrl.create();
     await loading.present();
 
     if (this.registerForm.valid) {
       try {
         const { email, password, username } = this.registerForm.value;
-        console.log('Attempting to register with:', {
-          email,
-          password,
-          username,
-        });
+        console.log('Attempting to register with:', { email, password, username });
 
-        // Call the register method from the authService
-        const user = await this.authService.register(email, password, username);
-        console.log('Registration result:', user);
-
-        if (user) {
-          // Registration successful
-          await loading.dismiss();
-          this.router.navigate(['/home']);
-        } else {
-          // Registration failed (user is false)
-          await loading.dismiss();
-          this.presentToast('Registration failed. Please try again.');
-        }
-      } catch (error) {
-        // Handle any errors that occur during registration
-        console.error('Error during registration:', error);
+        // Await the registration call
+        await this.authService.doRegister(email, password, username);
+      
+        // If successful
         await loading.dismiss();
-        this.presentToast('An error occurred during registration.');
+        this.presentToast('Registration successful');
+
+      } catch (err:any) {
+        // Handle errors
+        await loading.dismiss();
+        this.presentToast(err.message || 'An error occurred during registration.');
       }
     } else {
       // Form is invalid
@@ -80,7 +70,7 @@ export class RegisterPage implements OnInit {
       this.presentToast('Please fill in all required fields.');
     }
   }
-
+ 
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
