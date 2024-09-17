@@ -12,7 +12,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class BirthdayService {
   private userId!: any;
 
-  private collectionRefPath = 'birthdayList';
+  public collectionRefPath = 'birthdayList';
   
 
   constructor(
@@ -27,9 +27,14 @@ export class BirthdayService {
   }
 
   addBirthday(birthday: Birthday) {
-    birthday.userId = this.userId;
-    const birthdayRef = collection(this.db, this.collectionRefPath);
-    return addDoc(birthdayRef, birthday);
+    return this.authservice.getCurrentUser().then((user) => {
+      if (!user?.uid) {
+        throw new Error('User not logged in');
+      }
+      birthday.userId = user.uid;
+      const birthdayRef = collection(this.db, this.collectionRefPath);
+      return addDoc(birthdayRef, birthday);
+    });
   }
 
   deleteBirthday(id: string) {
