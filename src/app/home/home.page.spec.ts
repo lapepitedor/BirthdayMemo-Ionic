@@ -90,7 +90,7 @@ describe('HomePage', () => {
     const birthdayDate = new Date(today);
     birthdayDate.setDate(today.getDate() + 10); // 10 days from now
 
-    const daysLeft = component.calculateDaysLeft(birthdayDate); // Pass Date object directly
+    const daysLeft = component.calculateDaysLeft(birthdayDate);
     expect(daysLeft).toBe(10);
   });
 
@@ -133,54 +133,7 @@ describe('HomePage', () => {
   it('should log out and navigate to login page', () => {
     component.logout();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
-  }); it('should calculate the days left for a birthday correctly', () => {
-    const today = new Date();
-    const birthdayDate = new Date(today);
-    birthdayDate.setDate(today.getDate() + 10); // 10 days from now
 
-    const daysLeft = component.calculateDaysLeft(birthdayDate); // Pass Date object directly
-    expect(daysLeft).toBe(10);
   });
 
-  it('should open birthday modal', waitForAsync(() => {
-    const birthday = {
-      id: '1',
-      fullname: 'Test',
-      date: new Date('2023-01-01'),
-      description: 'Test desc',
-    };
-
-    modalCtrlMock.create.and.returnValue(
-      Promise.resolve({ present: () => Promise.resolve() })
-    );
-
-    component.openBirthday(birthday);
-
-    fixture.whenStable().then(() => {
-      expect(modalCtrlMock.create).toHaveBeenCalledWith({
-        component: LandingPage,
-        componentProps: { id: '1' },
-        breakpoints: [0, 0.5, 0.8],
-        initialBreakpoint: 0.5,
-      });
-    });
-  }));
-
-  it('should show add birthday alert and save new birthday', waitForAsync(() => {
-    const alertSpy = jasmine.createSpyObj('alert', ['present']);
-    alertCtrlMock.create.and.returnValue(Promise.resolve(alertSpy));
-
-    component.addBirthdate();
-
-    fixture.whenStable().then(() => {
-      expect(alertCtrlMock.create).toHaveBeenCalled();
-      expect(alertSpy.present).toHaveBeenCalled();
-    });
-  }));
-
-  it('should log out and navigate to login page', () => {
-    component.logout();
-
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
-  });
-});
+ });
