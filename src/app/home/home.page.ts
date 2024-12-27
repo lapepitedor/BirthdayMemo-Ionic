@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { Birthday } from '../models/birthday';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { BirthdayService } from '../services/birthday.service';
-import { LandingPage } from '../landing/landing.page';
+import { DetailsPage } from '../details-page/details.page';
 import { Route, Router } from '@angular/router';
 
 
@@ -19,9 +19,10 @@ export class HomePage implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private alertctrl: AlertController,
+    private toastController: ToastController,
     private birthdayService: BirthdayService,
     private modalctrl: ModalController,
-    private router:Router
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -77,7 +78,7 @@ export class HomePage implements OnInit {
 
   async openBirthday(birthday: Birthday) {
     const modal = await this.modalctrl.create({
-      component: LandingPage,
+      component: DetailsPage,
       componentProps: { id: birthday.id },
       breakpoints: [0, 0.5, 0.8],
       initialBreakpoint: 0.5,
@@ -96,7 +97,7 @@ export class HomePage implements OnInit {
         },
         {
           name: 'description',
-          placeholder: 'gift ideas?',
+          placeholder: 'Gift ideas?',
           type: 'textarea',
         },
         {
@@ -115,18 +116,47 @@ export class HomePage implements OnInit {
         },
         {
           text: 'Save',
-          handler: (data) => {
+          handler: async (data) => {
+            let errorMessage = '';
+           
+            if (!data.fullname && !data.date) {
+              errorMessage =
+                'Please fill out both the Full Name and Date fields.';
+            } else if (!data.fullname) {
+              errorMessage = 'Please fill out the Full Name field.';
+            } else if (!data.date) {
+              errorMessage = 'Please select a Date.';
+            }
+
+            if (errorMessage) {
+              await this.presentErrorToast(errorMessage);
+              return false; // Empêche la fermeture de l'alerte
+            }
+
+            // Appeler le service si la validation passe
             this.birthdayService.addBirthday({
               fullname: data.fullname,
               description: data.description,
               date: data.date,
             });
+
+            return true; // Permet de fermer l'alerte
           },
         },
       ],
     });
 
     await alert.present();
+  }
+
+  async presentErrorToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000, // Durée en millisecondes
+      color: 'danger', // Couleur du toast (peut être 'primary', 'secondary', etc.)
+      position: 'top', // Position du toast ('top', 'bottom', 'middle')
+    });
+    toast.present();
   }
 
   async logout() {

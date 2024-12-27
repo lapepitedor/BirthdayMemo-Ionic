@@ -1,0 +1,87 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Global font */
+:host {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header Design */
+ion-header {
+  --background: linear-gradient(to right, #00a6ff, #f200ff);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-title {
+  color: #00264D;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* Close Button */
+.close-button {
+  --background: none;
+  color: white;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #FF4500;
+  transform: scale(1.1);
+}
+
+/* Content Design */
+.details-content {
+ 
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Form Item Styles */
+.custom-item {
+  margin-top: 12px;
+  border: 1px solid #0084ff;
+  border-radius: 8px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-item ion-input,
+.custom-item ion-textarea {
+  height: 5px;
+  font-size: 0.9rem; /* Text size reduced */
+}
+
+.item-label {
+  color: #00264D;
+  font-weight: 600;
+  font-size: 0.8rem; 
+}
+
+/* Buttons Section */
+.action-button {
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  margin-top: - 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+ion-grid {
+  margin-top: 20px;
+}
+
+ion-row {
+  align-items: center;
+  justify-content: center;
+}

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { Birthday } from '../models/birthday';
-
 import { from, map, Observable, Subject } from 'rxjs';
-import { addDoc, collection, collectionData, deleteDoc, doc, docData, Firestore, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { addDoc, collection, collectionData, deleteDoc, doc, docData, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
+
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +17,6 @@ export class BirthdayService {
   constructor(
     private authservice: AuthenticationService,
     public db: Firestore,
-    private afs: AngularFirestore
   ) {
     this.authservice.getCurrentUser().then((user) => {
       this.userId = user?.uid;

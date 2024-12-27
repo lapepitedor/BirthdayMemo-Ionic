@@ -1,36 +1,38 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title > Birthday List </ion-title>
+    <ion-title class="header-title">🎉 Birthday List 🎂</ion-title>
 
     <ion-buttons slot="end">
       <ion-button color="danger" (click)="logout()">
-       <ion-icon name="log-out-outline" slot="start" ></ion-icon>
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
- <ion-list>
-  <ion-card
-    *ngFor="let birthday of birthdate"
-    (click)="openBirthday(birthday)">
-    <ion-card-header>
-      <ion-card-title>{{ birthday.fullname }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p  *ngIf="birthday.daysLeft !== 0">{{ birthday.daysLeft }} days left until their birthday</p>
-      <p *ngIf="birthday.daysLeft === 0">
-        🎉 It’s the special big day for {{ birthday.fullname }}! 🎂
-      </p>
-    </ion-card-content>
-  </ion-card>
-</ion-list>
-
+  <ion-list>
+    <ion-card
+      *ngFor="let birthday of birthdate"
+      (click)="openBirthday(birthday)"
+      class="birthday-card">
+      <ion-card-header>
+        <ion-card-title class="card-title">{{ birthday.fullname }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p *ngIf="birthday.daysLeft !== 0" class="days-left-text">
+          {{ birthday.daysLeft }} days left until their birthday
+        </p>
+        <p *ngIf="birthday.daysLeft === 0" class="big-day-text">
+          🎉 It’s the special big day for {{ birthday.fullname }}! 🎂
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-<ion-fab-button (click)="addBirthdate()">
-<ion-icon name="add"></ion-icon>
-</ion-fab-button>
+    <ion-fab-button (click)="addBirthdate()" class="fab-button">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
 </ion-content>

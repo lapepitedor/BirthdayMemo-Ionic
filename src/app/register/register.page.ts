@@ -12,7 +12,9 @@ import { LoadingController, ToastController } from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  registerForm!: FormGroup;
+  signupForm!: FormGroup;
+  isTypePassword: boolean = true;
+  isLoading: boolean = false;
   constructor(
     public authService: AuthenticationService,
     public loadingCtrl: LoadingController,
@@ -24,8 +26,8 @@ export class RegisterPage implements OnInit {
   //title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
 
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
+    this.signupForm = this.fb.group({
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',
@@ -35,34 +37,43 @@ export class RegisterPage implements OnInit {
           //  Validators.pattern('(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,}'),
         ],
       ],
+      acceptTerms: [false, Validators.requiredTrue],
     });
   }
 
+  onChange() {
+    this.isTypePassword = !this.isTypePassword;
+  }
+
   get errorControl() {
-    return this.registerForm?.controls;
+    return this.signupForm?.controls;
   }
 
   async signUp() {
-    debugger
     const loading = await this.loadingCtrl.create();
     await loading.present();
 
-    if (this.registerForm.valid) {
+    if (this.signupForm.valid) {
       try {
-        const { email, password, username } = this.registerForm.value;
-        console.log('Attempting to register with:', { email, password, username });
+        const { email, password, username } = this.signupForm.value;
+        console.log('Attempting to register with:', {
+          email,
+          password,
+          username,
+        });
 
         // Await the registration call
         await this.authService.doRegister(email, password, username);
-      
+
         // If successful
         await loading.dismiss();
         this.presentToast('Registration successful');
-
-      } catch (err:any) {
+      } catch (err: any) {
         // Handle errors
         await loading.dismiss();
-        this.presentToast(err.message || 'An error occurred during registration.');
+        this.presentToast(
+          err.message || 'An error occurred during registration.'
+        );
       }
     } else {
       // Form is invalid
@@ -70,7 +81,7 @@ export class RegisterPage implements OnInit {
       this.presentToast('Please fill in all required fields.');
     }
   }
- 
+
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,

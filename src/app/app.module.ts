@@ -6,17 +6,15 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { provideFirebaseApp , initializeApp} from '@angular/fire/app'
+import { provideFirebaseApp , initializeApp, getApp} from '@angular/fire/app'
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { BirthdayService } from './services/birthday.service';
 import { AuthenticationService } from './services/authentication.service';
 import { environment } from 'src/environments/environment';
-
-
+import { provideAuth } from '@angular/fire/auth';
+import { Capacitor } from '@capacitor/core';
+import { initializeAuth, indexedDBLocalPersistence, getAuth } from 'firebase/auth';
 
   
 @NgModule({
@@ -25,19 +23,25 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFirestoreModule,
-    AngularFireAuthModule,
     ReactiveFormsModule,
     FormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    
   ],
-  providers: [BirthdayService,AuthenticationService,
+  providers: [
+    BirthdayService,
+    AuthenticationService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-  //  provideFirestore(() => getFirestore()),
-  //    provideAuth(() => getAuth()),
-   ],
+    provideAuth(() => {
+      if (Capacitor.isNativePlatform()) {
+        return initializeAuth(getApp(), {
+          persistence: indexedDBLocalPersistence,
+        });
+      } else {
+        return getAuth();
+      }
+    }),
+    provideFirestore(() => getFirestore()),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

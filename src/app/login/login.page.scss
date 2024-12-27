@@ -1,43 +1,84 @@
-.input{
-   font-size: 300; 
-}
 
-ion-item{
-    --background: #ee9d22;
-    border-radius: 10px;
-    margin-bottom: 16px;
-}
 
-.page {
-  background-color: #000000; /* Fond noir */
-  color: #ffffff; /* Texte blanc */
-  min-height: 100vh; /* Assurez que le fond couvre toute la hauteur de la vue */
-}
-
-.header{
-    margin-top: 100px;
-    margin-bottom: 80px;
-    text-align: center;
-     .title{
-        font-size: 2rem;
-    }
-    .text{
-        color:gray;
-        font-size:0.9rem;
-
-    }
-}
-.register{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    font-weight: 600;
-    color:aqua;
-    margin-right: 50px;
+::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none;
+    overflow: hidden;
+  }
   
-    a
-    {
-        text-decoration: none;
-    }
+  ion-content {
+       overflow: hidden;
+    --overflow: hidden;
+  background: transparent;
+   --background: linear-gradient(to right, #00a6ff, #f200ff);
+    border-radius: 30px;
+  }
+
+  .header {
+   text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #01070c;  /* Couleur bleue claire pour attirer l'attention */
+  margin-bottom: 15px;
+}
+
+.text {
+  font-size: 18px;
+  color: #333;
+  font-weight: 300;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.text:last-child {
+  color: #090106;  /* Couleur attrayante pour l'incitation à l'action */
+  font-weight: bold;
+  font-size: 20px;
+}
+
+  .scroll-content {
+    overflow: hidden;
+   
+  }
+  
+  ion-list {
+    background: transparent;
+    transform: translateY(5vh);
+    ion-item {
+      border: 1px solid #0084ff;
+      border-radius: 10px;
+    }
+    ion-row {
+      margin-bottom: 5vh;
+    }
+    ion-button {
+      width: 30vh;
+      margin: auto;
+    }
+    .alignItems {
+      ion-checkbox, ion-note {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      ion-checkbox {
+        margin-right: 1vw;
+        --size: 1.1rem;
+      }
+    }
+    .signup {
+      margin-top: 5vh;
+      font-size: 0.8rem;
+    }
+    
+    ion-col {
+      ion-note {
+        font-size: 0.85rem;
+      }
+    }
+  }

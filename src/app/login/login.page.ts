@@ -12,10 +12,14 @@ import { user } from '@angular/fire/auth';
 })
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
+  isTypePassword: boolean = true;
+  isLogin = false;
+
   constructor(
     public authService: AuthenticationService,
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
+    private alertController: AlertController,
     private router: Router,
     private fb: FormBuilder
   ) {}
@@ -42,6 +46,16 @@ export class LoginPage implements OnInit {
 
   get errorControl() {
     return this.loginForm?.controls;
+  }
+
+  onChange() {
+    this.isTypePassword = !this.isTypePassword;
+  }
+
+  onSubmit() {
+    if (!this.loginForm.valid) return;
+    console.log(this.loginForm.value);
+    this.login();
   }
 
   async login() {
@@ -76,5 +90,32 @@ export class LoginPage implements OnInit {
     });
 
     await toast.present();
+  }
+
+  // Fonction pour réinitialiser le mot de passe
+  async forgotPassword() {
+    const email = prompt('Please enter your email address:');
+    if (email) {
+      try {
+        await this.authService.resetPassword(email);
+        const alert = await this.alertController.create({
+          header: 'Password Reset',
+          message: 'A password reset link has been sent to your email.',
+          buttons: ['OK'],
+        });
+        await alert.present();
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred.';
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: errorMessage,
+          buttons: ['OK'],
+        });
+        await alert.present();
+      }
+    }
   }
 }

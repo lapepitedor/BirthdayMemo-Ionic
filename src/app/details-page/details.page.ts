@@ -5,11 +5,11 @@ import { BirthdayService } from '../services/birthday.service';
 import { Birthday } from '../models/birthday';
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.page.html',
-  styleUrls: ['./landing.page.scss'],
+  selector: 'app-details',
+  templateUrl: './details.page.html',
+  styleUrls: ['./details.page.scss'],
 })
-export class LandingPage implements OnInit {
+export class DetailsPage implements OnInit {
   @Input() id!: string;
   birthday!: Birthday;
   isModified: boolean = false;
