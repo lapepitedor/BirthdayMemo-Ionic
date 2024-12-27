@@ -32,6 +32,10 @@ describe('BirthdayService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        // Import FirebaseApp and Firestore using AngularFireModule
+        AngularFireModule.initializeApp(environment.firebaseConfig), // Initialize Firebase
+      ],
       providers: [
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideFirestore(() => getFirestore()),

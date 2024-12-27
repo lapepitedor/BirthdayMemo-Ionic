@@ -63,6 +63,24 @@ describe('HomePage', () => {
       ],
     }).compileComponents();
 
+    // Setup the mock for getBirthDates to return an observable with test data
+    birthdayServiceMock.getBirthDates.and.returnValue(
+      of([
+        {
+          id: '1',
+          fullname: 'John Doe',
+          date: new Date(),
+          description: 'Gift ideas',
+        },
+        {
+          id: '2',
+          fullname: 'Jane Doe',
+          date: new Date(),
+          description: 'Another idea',
+        },
+      ])
+    );
+
     fixture = TestBed.createComponent(HomePage);
     component = fixture.componentInstance;
     fixture.detectChanges();

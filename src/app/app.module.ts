@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { provideFirebaseApp , initializeApp, getApp} from '@angular/fire/app'
@@ -16,7 +14,7 @@ import { provideAuth } from '@angular/fire/auth';
 import { Capacitor } from '@capacitor/core';
 import { initializeAuth, indexedDBLocalPersistence, getAuth } from 'firebase/auth';
 
-  
+ 
 @NgModule({
   declarations: [AppComponent],
   imports: [

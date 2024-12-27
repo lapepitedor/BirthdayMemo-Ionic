@@ -10,6 +10,10 @@ import {
 import { of, throwError } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { RegisterPage } from './register.page';
+import { Router } from '@angular/router';
+import { LoadingController, ToastController, NavController, IonicModule } from '@ionic/angular';
+import { AuthenticationService } from '../services/authentication.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('RegisterPage', () => {
   let component: RegisterPage;
