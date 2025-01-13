@@ -9,8 +9,8 @@
        overflow: hidden;
     --overflow: hidden;
   background: transparent;
-   --background: linear-gradient(to right, #00a6ff, #f200ff);
-    border-radius: 30px;
+   --background: linear-gradient(to right, #00a6ff, #ff002f);
+    
   }
 
   .header {
@@ -24,7 +24,7 @@
 .title {
   font-size: 28px;
   font-weight: bold;
-  color: #01070c;  /* Couleur bleue claire pour attirer l'attention */
+  color: #01070c;  
   margin-bottom: 15px;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .text:last-child {
-  color: #090106;  /* Couleur attrayante pour l'incitation à l'action */
+  color: #090106;  
   font-weight: bold;
   font-size: 20px;
 }

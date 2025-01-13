@@ -1,19 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import {
-  IonicModule,
-  LoadingController,
-  ToastController,
-  NavController,
-} from '@ionic/angular';
 import { of, throwError } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { RegisterPage } from './register.page';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController, NavController, IonicModule } from '@ionic/angular';
-import { AuthenticationService } from '../services/authentication.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  ToastController,
+  NavController,
+  IonicModule,
+  LoadingController,
+} from '@ionic/angular';
+
+
 
 describe('RegisterPage', () => {
   let component: RegisterPage;

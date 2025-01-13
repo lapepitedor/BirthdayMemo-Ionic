@@ -21,7 +21,6 @@ import { initializeAuth, indexedDBLocalPersistence, getAuth } from 'firebase/aut
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    ReactiveFormsModule,
     FormsModule,
   ],
   providers: [

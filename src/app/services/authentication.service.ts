@@ -28,14 +28,14 @@ export class AuthenticationService {
             email: email,
             username: username,
           };
-          const userDocRef = doc(this.db, `users/${result.user.uid}`); // Crée une référence vers le document utilisateur
-          return setDoc(userDocRef, additionalUserData); // Enregistre les données supplémentaires
+          const userDocRef = doc(this.db, `users/${result.user.uid}`); // Create a reference to the user document
+          return setDoc(userDocRef, additionalUserData);
         } else {
           throw new Error('User registration failed');
         }
       })
       .then(() => {
-        this.router.navigate(['/home']); // Redirige après succès
+        this.router.navigate(['/home']); 
       })
       .catch((error) => {
         console.error('Error registering user:', error);
@@ -60,22 +60,6 @@ export class AuthenticationService {
       throw e;
     }
   }
-
-  // async sendPasswordResetEmail(email: string) {
-  //   try {
-  //     await this.afAuth.sendPasswordResetEmail(email); // Envoie l'email de réinitialisation
-  //     this.showAlert(
-  //       'Success',
-  //       'A password reset link has been sent to your email.'
-  //     );
-  //   } catch (error) {
-  //     this.showAlert(
-  //       'Error',
-  //       'Failed to send password reset email. Please try again later.'
-  //     );
-  //     console.error('Error sending password reset email:', error);
-  //   }
-  // }
 
   async doLogout() {
     try {

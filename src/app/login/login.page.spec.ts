@@ -13,7 +13,7 @@ import { IonicModule } from '@ionic/angular';
 
 // Mock classes
 class AuthenticationServiceMock {
-  doLogin(email: string, password: string) {
+ 
   doLogin(email: string, password: string) {
     return Promise.resolve(true);
   }

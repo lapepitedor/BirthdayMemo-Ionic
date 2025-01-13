@@ -5,6 +5,7 @@ import { AlertController, ModalController, ToastController } from '@ionic/angula
 import { BirthdayService } from '../services/birthday.service';
 import { DetailsPage } from '../details-page/details.page';
 import { Route, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class HomePage implements OnInit {
     private toastController: ToastController,
     private birthdayService: BirthdayService,
     private modalctrl: ModalController,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -30,7 +31,6 @@ export class HomePage implements OnInit {
       this.userId = user?.uid;
       console.log('user:', this.userId);
 
-      //
       if (this.userId) {
         this.birthdayService
           .getBirthDates(this.userId)
@@ -43,7 +43,6 @@ export class HomePage implements OnInit {
               }))
               // Sort birthdays by daysLeft in ascending order
               .sort((a, b) => a.daysLeft - b.daysLeft);
-
             console.log('Birthdates sorted by days left:', this.birthdate);
           });
       }
@@ -80,8 +79,8 @@ export class HomePage implements OnInit {
     const modal = await this.modalctrl.create({
       component: DetailsPage,
       componentProps: { id: birthday.id },
-      breakpoints: [0, 0.5, 0.8],
-      initialBreakpoint: 0.5,
+      breakpoints: [0, 0.5, 1],
+      initialBreakpoint: 1,
     });
     modal.present();
   }
@@ -118,7 +117,7 @@ export class HomePage implements OnInit {
           text: 'Save',
           handler: async (data) => {
             let errorMessage = '';
-           
+
             if (!data.fullname && !data.date) {
               errorMessage =
                 'Please fill out both the Full Name and Date fields.';
@@ -130,17 +129,16 @@ export class HomePage implements OnInit {
 
             if (errorMessage) {
               await this.presentErrorToast(errorMessage);
-              return false; // Empêche la fermeture de l'alerte
+              return false; // Prevents the alert from closing
             }
 
-            // Appeler le service si la validation passe
             this.birthdayService.addBirthday({
               fullname: data.fullname,
               description: data.description,
               date: data.date,
             });
 
-            return true; // Permet de fermer l'alerte
+            return true; // Closes the alert
           },
         },
       ],
@@ -152,15 +150,15 @@ export class HomePage implements OnInit {
   async presentErrorToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 3000, // Durée en millisecondes
-      color: 'danger', // Couleur du toast (peut être 'primary', 'secondary', etc.)
-      position: 'top', // Position du toast ('top', 'bottom', 'middle')
+      duration: 3000,
+      color: 'danger',
+      position: 'top',
     });
     toast.present();
   }
 
   async logout() {
-    this.authService.doLogout; // Implement your logout logic here
-    this.router.navigate(['/login']); // Redi
+    this.authService.doLogout;
+    this.router.navigate(['/login']);
   }
 }

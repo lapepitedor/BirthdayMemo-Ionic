@@ -9,52 +9,24 @@ import { getAuth, indexedDBLocalPersistence, initializeAuth, provideAuth } from 
 import { Capacitor } from '@capacitor/core';
 
 
-// describe('BirthdayService', () => {
-//   let service: BirthdayService;
-  
-//    beforeEach(() => {
-//      TestBed.configureTestingModule({
-//        providers: [
-//          provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-//          provideFirestore(() => getFirestore()),
-//        ],
-//      });
-
-//      service = TestBed.inject(BirthdayService);
-//    });
-
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-
 describe('BirthdayService', () => {
   let service: BirthdayService;
-
+  
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        // Import FirebaseApp and Firestore using AngularFireModule
-        AngularFireModule.initializeApp(environment.firebaseConfig), // Initialize Firebase
-      ],
       providers: [
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideFirestore(() => getFirestore()),
-        provideAuth(() => {
-          if (Capacitor.isNativePlatform()) {
-            return initializeAuth(getApp(), {
-              persistence: indexedDBLocalPersistence,
-            });
-          } else {
-            return getAuth();
-          }
-        }),
+        provideAuth(() => getAuth()),
       ],
     });
+
     service = TestBed.inject(BirthdayService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-});
+}
+);
 

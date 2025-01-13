@@ -92,7 +92,6 @@ export class LoginPage implements OnInit {
     await toast.present();
   }
 
-  // Fonction pour réinitialiser le mot de passe
   async forgotPassword() {
     const email = prompt('Please enter your email address:');
     if (email) {
